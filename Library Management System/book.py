@@ -11,18 +11,18 @@ class Book:
     def borrow(self):
         if self.is_available:
             self.is_available = False
-            print(f"Book '{self.title}' borrowed successfully.")
+            return True
         else:
-            print(f"Book '{self.title}' is not available.")
+            return False
 
     def return_book(self):
         if not self.is_available:
             self.is_available = True
-            print(f"Book '{self.title}' returned successfully.")
+            return True
         else:
-            print(f"Book '{self.title}' is already available.")
+            return False
 
-obj = Book("Python Programming", "John Doe", 123)
+
 
 
 

@@ -3,7 +3,10 @@ from library import Library
 from member import Member
 
 library = Library("HyperX Library")
+library.load_books()
+library.load_members()
 
+'''
 # Create Books
 book1 = Book("Python Programming", "John Doe", 123)
 book2 = Book("Java Programming", "John Doe", 124)
@@ -21,6 +24,8 @@ member2 = Member("Jane Foster", 2)
 # Register Members
 library.add_member(member1)
 library.add_member(member2)
+'''
+
 
 while True:
     print("\nLibrary Management System Menu:")
@@ -70,7 +75,14 @@ while True:
         book_id = int(input("Enter book ID: "))
         library.return_book(member_id, book_id)
     elif choice == "11":
-        print("Exiting Library Management System. Thank you!")  
+        library.save_books()
+        library.save_members()
+        print("Data saved successfully!")
+        print("Exiting Library Management System. Thank you!")
         break
     else:
         print("Invalid choice. Please try again.")
+
+
+
+    

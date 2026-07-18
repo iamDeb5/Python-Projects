@@ -1,3 +1,5 @@
+import json
+import os
 from book import Book
 from member import Member  
 
@@ -138,6 +140,74 @@ class Library:
                 print(f"Book '{book.title}' returned successfully.")
         else:
             print(f"Book '{book.title}' is not borrowed by this member.")
+
+
+    #Save all data
+    def save_books(self):
+        books_data = []
+        for book in self.books:
+            books_data.append({
+                "book_id": book.book_id,
+                "title": book.title,
+                "author": book.author,
+                "is_available": book.is_available
+            })
+
+            with open("data/books.json", "w") as f:
+                json.dump(books_data, f, indent=4)
+    
+    
+    def save_members(self):
+        members_data = []
+        for member in self.members:
+            members_data.append({
+                "member_id": member.member_id,
+                "name": member.name,
+                "borrowed_books": [book.book_id for book in member.borrowed_books]
+            })
+
+        with open("data/members.json", "w") as f:
+            json.dump(members_data, f, indent=4)
+
+
+    # Load Books
+    def load_books(self):
+        try:
+            with open("data/books.json", "r") as f:
+                books_data = json.load(f)
+                for book_data in books_data:
+                    book = Book(
+                        book_data["title"],
+                        book_data["author"],
+                        book_data["book_id"]
+                    )
+
+                    book.is_available = book_data["is_available"]
+                    self.books.append(book)
+        except FileNotFoundError:
+            print("No book data found.")
+
+    # Load Members
+    def load_members(self):
+        try:
+            # with Borrowed Books
+            with open("data/members.json", "r") as f:
+                members_data = json.load(f)
+                for member_data in members_data:
+                    member = Member(
+                        member_data["name"],
+                        member_data["member_id"]
+                    )
+
+                    member.borrowed_books = member_data["borrowed_books"]
+                    self.members.append(member)
+                 
+        except FileNotFoundError:
+            print("No member data found.")
+    
+
+
+        
 
 
         
